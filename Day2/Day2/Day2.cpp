@@ -15,26 +15,8 @@ void PrintProgram(const std::vector<int>& program)
 	std::cout << std::endl;
 }
 
-int main()
+int RunProgram(std::vector<int>& program)
 {
-	std::vector<int> input;
-	std::vector<int> program;
-
-	int value;
-	char split;
-
-	std::ifstream fileIn("input.txt");
-
-	while (fileIn >> value >> split)
-	{
-		input.push_back(value);
-	}
-
-	program.assign(input.begin(), input.end());
-
-	program[1] = 12;
-	program[2] = 2;
-
 	bool halt = false;
 	int sp = 0;
 	while (!halt)
@@ -56,10 +38,59 @@ int main()
 		sp += 4;
 	}
 
-	std::cout << program[0];
+	return program[0];
+}
+
+int main()
+{
+	std::vector<int> input;
+	std::vector<int> program;
+
+	int value;
+	char split;
+
+	std::ifstream fileIn("input.txt");
+
+	while (fileIn >> value >> split)
+	{
+		input.push_back(value);
+	}
+
+	program.assign(input.begin(), input.end());
+
+	program[1] = 12;
+	program[2] = 2;
+
+	std::cout << RunProgram(program) << std::endl;
 
 	//part 2
+	int output = 0;
+	int noun = 0;
+	int verb = 0;
+	while (true)
+	{
+		program.assign(input.begin(), input.end());
+		program[1] = noun;
+		program[2] = verb;
 
+		output = RunProgram(program);
+
+		if (output == 19690720)
+		{
+			std::cout << noun * 100 + verb;
+			return 0;
+		}
+
+		verb++;
+		if (verb >= 100)
+		{
+			verb = 0;
+			noun++;
+		}
+		assert(verb < 100 && noun < 100);
+	}
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
