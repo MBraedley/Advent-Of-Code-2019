@@ -2,7 +2,7 @@
 //
 
 #include <fstream>
-#include <set>
+#include <map>
 #include <sstream>
 #include <iostream>
 #include <cassert>
@@ -30,11 +30,12 @@ bool operator<(const Point& lhs, const Point& rhs)
     return (lhs.x + lhs.y) < (rhs.x + rhs.y);
 }
 
-void MapWire(std::string& line, std::multiset<Point>& wire1)
+void MapWire(std::string& line, std::multimap<Point, int>& wire1)
 {
     char dir;
     int dist;
     char comma;
+    int totalDistance = 0;
 
     Point lastPoint = { 0, 0 };
     std::stringstream sstrm1(line);
@@ -63,7 +64,7 @@ void MapWire(std::string& line, std::multiset<Point>& wire1)
         for (int i = 0; i < dist; i++)
         {
             lastPoint += modifier;
-            wire1.insert(lastPoint);
+            wire1.insert({ lastPoint, ++totalDistance });
         }
     }
 }
@@ -75,8 +76,8 @@ int Distance(const Point& point)
 
 int main()
 {
-    std::multiset<Point> wire1;
-    std::multiset<Point> wire2;
+    std::multimap<Point, int> wire1;
+    std::multimap<Point, int> wire2;
 
     std::ifstream input("input.txt");
 
@@ -91,20 +92,29 @@ int main()
 
     MapWire(line, wire2);
 
-    int best = std::numeric_limits<int>::max();
-    for (const Point& pnt1 : wire1)
+    int bestPt1 = std::numeric_limits<int>::max();
+    int bestPt2 = std::numeric_limits<int>::max();
+    for (auto& pnt1 : wire1)
     {
-        auto range = wire2.equal_range(pnt1);
+        auto range = wire2.equal_range(pnt1.first);
         for (auto iter = range.first; iter != range.second; iter++)
         {
-            if (pnt1 == *iter && Distance(pnt1) < best)
+            if (pnt1.first == iter->first)
             {
-                best = Distance(pnt1);
+                if (Distance(pnt1.first) < bestPt1)
+                {
+                    bestPt1 = Distance(pnt1.first);
+                }
+                if (pnt1.second + iter->second < bestPt2)
+                {
+                    bestPt2 = pnt1.second + iter->second;
+                }
             }
         }
     }
 
-    std::cout << best << std::endl;
+    std::cout << bestPt1 << std::endl;
+    std::cout << bestPt2 << std::endl;
 
     return -1;
 }
