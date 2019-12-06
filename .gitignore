@@ -1,0 +1,10 @@
+#VS dirs
+.vs/
+Debug/
+Release/
+x64/
+x86/
+Win32/
+
+*.filters
+*.user
