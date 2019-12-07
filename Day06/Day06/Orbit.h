@@ -1,5 +1,5 @@
 #pragma once
-#include <set>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -11,9 +11,11 @@ public:
 
 	void AddChild(std::shared_ptr<Orbit> child);
 
+	bool HasParent() { return m_Parent != nullptr; }
+
 private:
-	std::shared_ptr<Orbit> m_Parent;
+	std::shared_ptr<Orbit> m_Parent = nullptr;
 	std::string m_Label;
-	std::set<std::shared_ptr<Orbit>> m_Children;
+	std::map<std::string, std::shared_ptr<Orbit>> m_Children;
 };
 

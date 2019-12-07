@@ -1,5 +1,6 @@
 // Day06.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include "Orbit.h"
 
 #include <iostream>
 #include <fstream>
@@ -8,14 +9,28 @@
 
 int main()
 {
-	std::vector<std::string> parents;
-	std::vector<std::string> children;
 	std::ifstream fileIn("input.txt");
+
+	std::map<std::string, std::shared_ptr<Orbit>> orbits;
 
 	std::string line;
 	while (fileIn >> line)
 	{
-		parents.push_back(line.substr(0, 3));
-		children.push_back(line.substr(4, 3));
+		std::string parent = line.substr(0, 3);
+		std::string child = line.substr(4, 3);
+
+		if (orbits.find(parent) == orbits.end())
+		{
+			orbits[parent] = std::make_shared<Orbit>(parent);
+		}
+
+		if (orbits.find(child) == orbits.end())
+		{
+			orbits[child] = std::make_shared<Orbit>(child);
+		}
+
+		orbits[parent]->AddChild(orbits[child]);
 	}
+
+	return 0;
 }
