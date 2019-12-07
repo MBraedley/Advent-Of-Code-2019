@@ -6,7 +6,7 @@
 class Orbit : public std::enable_shared_from_this<Orbit>
 {
 public:
-	Orbit() = default;
+	Orbit(std::string label);
 	~Orbit() = default;
 
 	void AddChild(std::shared_ptr<Orbit> child);
