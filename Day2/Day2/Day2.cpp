@@ -1,45 +1,47 @@
 // Day2.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include "IntcodeComputer.h"
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <cassert>
 
-void PrintProgram(const std::vector<int>& program)
-{
-	for (int value : program)
-	{
-		std::cout << value << ",";
-	}
-	std::cout << std::endl;
-}
-
-int RunProgram(std::vector<int>& program)
-{
-	bool halt = false;
-	int sp = 0;
-	while (!halt)
-	{
-		switch (program[sp])
-		{
-		case 1:
-			program[program[sp + 3]] = program[program[sp + 1]] + program[program[sp + 2]];
-			break;
-		case 2:
-			program[program[sp + 3]] = program[program[sp + 1]] * program[program[sp + 2]];
-			break;
-		case 99:
-			halt = true;
-			break;
-		default:
-			assert(false);
-		}
-		sp += 4;
-	}
-
-	return program[0];
-}
+//void PrintProgram(const std::vector<int>& program)
+//{
+//	for (int value : program)
+//	{
+//		std::cout << value << ",";
+//	}
+//	std::cout << std::endl;
+//}
+//
+//int RunProgram(std::vector<int>& program)
+//{
+//	bool halt = false;
+//	int ip = 0;
+//	while (!halt)
+//	{
+//		switch (program[ip])
+//		{
+//		case 1:
+//			program[program[ip + 3]] = program[program[ip + 1]] + program[program[ip + 2]];
+//			break;
+//		case 2:
+//			program[program[ip + 3]] = program[program[ip + 1]] * program[program[ip + 2]];
+//			break;
+//		case 99:
+//			halt = true;
+//			break;
+//		default:
+//			assert(false);
+//		}
+//		ip += 4;
+//	}
+//
+//	return program[0];
+//}
 
 int main()
 {
@@ -61,7 +63,10 @@ int main()
 	program[1] = 12;
 	program[2] = 2;
 
-	std::cout << RunProgram(program) << std::endl;
+	IntcodeComputer part1(program);
+	part1.RunProgram();
+
+	std::cout << part1.GetValue(0) << std::endl;
 
 	//part 2
 	int output = 0;
@@ -73,7 +78,11 @@ int main()
 		program[1] = noun;
 		program[2] = verb;
 
-		output = RunProgram(program);
+		IntcodeComputer part2(program);
+
+		part2.RunProgram();
+
+		output = part2.GetValue(0);
 
 		if (output == 19690720)
 		{
