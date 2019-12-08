@@ -3,7 +3,6 @@
 
 #include "IntcodeComputer.h"
 #include <cassert>
-#include <iostream>
 
 IntcodeComputer::IntcodeComputer(std::vector<int>& program) :
 	m_Program(program)
@@ -112,13 +111,11 @@ std::uint32_t IntcodeComputer::RunInstruction(std::uint32_t ip)
 		ip += 4;
 		break;
 	case 3:
-		std::cout << "Input value: ";
-		std::cin >> input;
-		m_Program[param1] = input;
+		m_Program[param1] = m_InputFunction();
 		ip += 2;
 		break;
 	case 4:
-		std::cout << "Output value: " << m_Program[param1] << std::endl;
+		m_OutputFunctuin(m_Program[param1]);
 		ip += 2;
 		break;
 	case 5:
