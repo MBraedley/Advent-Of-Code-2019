@@ -12,6 +12,11 @@ public:
 	void AddChild(std::shared_ptr<Orbit> child);
 
 	bool HasParent() { return m_Parent != nullptr; }
+	std::string GetLabel() { return m_Label; }
+
+	int GetOrbitCount(int level);
+
+	static int GetTransferCount(std::shared_ptr<Orbit> orbit1, std::shared_ptr<Orbit> orbit2);
 
 private:
 	std::shared_ptr<Orbit> m_Parent = nullptr;

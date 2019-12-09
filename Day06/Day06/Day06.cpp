@@ -32,5 +32,15 @@ int main()
 		orbits[parent]->AddChild(orbits[child]);
 	}
 
+	for (auto& orbit : orbits)
+	{
+		if (!orbit.second->HasParent())
+		{
+			std::cout << orbit.second->GetOrbitCount(0) << std::endl;
+		}
+	}
+
+	std::cout << Orbit::GetTransferCount(orbits["YOU"], orbits["SAN"]) << std::endl;
+
 	return 0;
 }
