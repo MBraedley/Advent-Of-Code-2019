@@ -46,8 +46,6 @@ std::uint32_t IntcodeComputer::RunInstruction(std::uint32_t ip)
 	int param2 = 0;
 	int param3 = 0;
 
-	int input;
-
 	if (paramMode1 == 0)
 		param1 = m_Program[ip + 1];
 	else if (paramMode1 == 1)
@@ -115,7 +113,7 @@ std::uint32_t IntcodeComputer::RunInstruction(std::uint32_t ip)
 		ip += 2;
 		break;
 	case 4:
-		m_OutputFunctuin(m_Program[param1]);
+		m_OutputFunction(m_Program[param1]);
 		ip += 2;
 		break;
 	case 5:
