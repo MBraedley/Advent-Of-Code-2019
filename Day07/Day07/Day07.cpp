@@ -2,10 +2,10 @@
 //
 
 #include "IntcodeComputer.h"
+#include "IOConnector.h"
 
 #include <iostream>
 #include <fstream>
-#include <future>
 
 int main()
 {
@@ -69,38 +69,28 @@ int main()
 	std::cout << best << std::endl;
 
 	// Part 2
-	//best = 0;
+	best = 0;
 
-	//for (auto permute : permutations)
-	//{
-	//	int nextSignal = 0;
-	//	for (int phase : permute)
-	//	{
-	//		program.assign(input.begin(), input.end());
-	//		IntcodeComputer amp(program);
+	for (auto permute : permutations)
+	{
+		std::vector<std::shared_ptr<IntcodeComputer>> amps;
+		std::vector<std::shared_ptr<IOConnector>> connectors;
+		std::shared_ptr<IOConnector> lastConnector = std::make_shared<IOConnector>();
+		for (int phase : permute)
+		{
+			program.assign(input.begin(), input.end());
+			std::shared_ptr<IntcodeComputer> amp = std::make_shared<IntcodeComputer>(program);
+			amps.push_back(amp);
+			std::shared_ptr<IOConnector> connector = std::make_shared<IOConnector>();
+			connectors.push_back(connector);
+			amp->SetOutputCallback(std::bind(&IOConnector::SetValue, lastConnector, std::placeholders::_1));
+			amp->SetInputCallback(std::bind(&IOConnector::GetValue, connector));
+		}
+		//if (nextSignal > best)
+		//{
+		//	best = nextSignal;
+		//}
+	}
 
-	//		amp.SetInputCallback([&]()->int
-	//			{
-	//				amp.SetInputCallback([&]()->int
-	//					{
-	//						return nextSignal;
-	//					});
-
-	//				return phase;
-	//			});
-
-	//		amp.SetOutputCallback([&](int signal)
-	//			{
-	//				nextSignal = signal;
-	//			});
-
-	//		amp.RunProgram();
-	//	}
-	//	if (nextSignal > best)
-	//	{
-	//		best = nextSignal;
-	//	}
-	//}
-
-	//std::cout << best << std::endl;
+	std::cout << best << std::endl;
 }

@@ -81,9 +81,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="IntcodeComputer.cpp" />
+    <ClCompile Include="IOConnector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntcodeComputer.h" />
+    <ClInclude Include="IOConnector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
