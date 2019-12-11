@@ -4,9 +4,12 @@
 #include "IntcodeComputer.h"
 #include <cassert>
 
-IntcodeComputer::IntcodeComputer(std::vector<int>& program) :
-	m_Program(program)
+IntcodeComputer::IntcodeComputer(std::vector<int>& program)
 {
+	for (std::uint64_t i = 0; i < program.size(); i++)
+	{
+		m_Program.insert({ i, program[i] });
+	}
 }
 
 void IntcodeComputer::RunProgram()
@@ -18,7 +21,7 @@ void IntcodeComputer::RunProgram()
 	}
 }
 
-std::uint32_t IntcodeComputer::RunInstruction(std::uint32_t ip)
+std::uint64_t IntcodeComputer::RunInstruction(std::uint64_t ip)
 {
 	assert(ip < m_Program.size());
 	int opcode = m_Program[ip] % 100;
@@ -137,13 +140,13 @@ std::uint32_t IntcodeComputer::RunInstruction(std::uint32_t ip)
 	return ip;
 }
 
-int IntcodeComputer::GetValue(std::uint32_t location)
+int IntcodeComputer::GetValue(std::uint64_t location)
 {
 	assert(location < m_Program.size());
 	return m_Program[location];
 }
 
-void IntcodeComputer::SetValue(std::uint32_t location, int value)
+void IntcodeComputer::SetValue(std::uint64_t location, int value)
 {
 	assert(location < m_Program.size());
 	m_Program[location] = value;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <vector>
 #include <functional>
 #include <iostream>
@@ -12,19 +13,19 @@ public:
 	~IntcodeComputer() = default;
 
 	void RunProgram();
-	std::uint32_t RunInstruction(std::uint32_t ip);
+	std::uint64_t RunInstruction(std::uint64_t ip);
 
-	int GetValue(std::uint32_t location);
-	void SetValue(std::uint32_t location, int value);
+	int GetValue(std::uint64_t location);
+	void SetValue(std::uint64_t location, int value);
 
 	void SetInputCallback(std::function<int(void)> function) { m_InputFunction = function; }
 	void SetOutputCallback(std::function<void(int)> function) { m_OutputFunction = function; }
 
-	std::vector<int> GetProgram() { return m_Program; }
+//	std::vector<int> GetProgram() { return m_Program; }
 
 private:
-	std::vector<int> m_Program;
-	std::uint32_t m_IP = 0;
+	std::map<std::int64_t, std::int64_t> m_Program;
+	std::uint64_t m_IP = 0;
 
 	bool m_Halted = true;
 

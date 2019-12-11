@@ -1,17 +1,21 @@
 #pragma once
-#include <atomic>
+#include "IntcodeComputer.h"
+
+#include "readerwriterqueue.h"
+
+#include <memory>
 #include <functional>
 
 class IOConnector
 {
 public:
-	IOConnector() = default;
+	IOConnector();
+	IOConnector(std::shared_ptr<IntcodeComputer> source, std::shared_ptr<IntcodeComputer> sink);
 	~IOConnector() = default;
 
 	void SetValue(int input);
 	int GetValue();
 
 private:
-	std::atomic_bool m_ValueReady = false;
-	std::atomic<int> m_Value = 0;
+	std::unique_ptr<moodycamel::BlockingReaderWriterQueue<int>> m_Values = nullptr;
 };
