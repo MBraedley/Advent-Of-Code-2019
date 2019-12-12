@@ -9,35 +9,36 @@ class IntcodeComputer
 {
 public:
 	IntcodeComputer() = default;
-	explicit IntcodeComputer(std::vector<int>& program);
+	explicit IntcodeComputer(std::vector<std::int64_t>& program);
 	~IntcodeComputer() = default;
 
 	void RunProgram();
 	std::uint64_t RunInstruction(std::uint64_t ip);
 
-	int GetValue(std::uint64_t location);
-	void SetValue(std::uint64_t location, int value);
+	std::int64_t GetValue(std::uint64_t location);
+	void SetValue(std::uint64_t location, std::int64_t value);
 
-	void SetInputCallback(std::function<int(void)> function) { m_InputFunction = function; }
-	void SetOutputCallback(std::function<void(int)> function) { m_OutputFunction = function; }
+	void SetInputCallback(std::function<std::int64_t(void)> function) { m_InputFunction = function; }
+	void SetOutputCallback(std::function<void(std::int64_t)> function) { m_OutputFunction = function; }
 
 //	std::vector<int> GetProgram() { return m_Program; }
 
 private:
 	std::map<std::int64_t, std::int64_t> m_Program;
 	std::uint64_t m_IP = 0;
+	std::int64_t m_RB = 0;
 
 	bool m_Halted = true;
 
-	std::function<int(void)> m_InputFunction = []() -> int
+	std::function<std::int64_t(void)> m_InputFunction = []() -> std::int64_t
 	{
-		int input;
+		std::int64_t input;
 		std::cout << "Input value: ";
 		std::cin >> input;
 		return input;
 	};
 
-	std::function<void(int)> m_OutputFunction = [](int output)
+	std::function<void(std::int64_t)> m_OutputFunction = [](std::int64_t output)
 	{
 		std::cout << "Output value: " << output << std::endl;
 	};

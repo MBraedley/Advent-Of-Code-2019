@@ -4,7 +4,7 @@
 #include "IntcodeComputer.h"
 #include <cassert>
 
-IntcodeComputer::IntcodeComputer(std::vector<int>& program)
+IntcodeComputer::IntcodeComputer(std::vector<std::int64_t>& program)
 {
 	for (std::uint64_t i = 0; i < program.size(); i++)
 	{
@@ -24,10 +24,10 @@ void IntcodeComputer::RunProgram()
 std::uint64_t IntcodeComputer::RunInstruction(std::uint64_t ip)
 {
 	assert(ip < m_Program.size());
-	int opcode = m_Program[ip] % 100;
-	int paramMode1 = -1;
-	int paramMode2 = -1;
-	int paramMode3 = -1;
+	std::int64_t opcode = m_Program[ip] % 100;
+	std::int64_t paramMode1 = -1;
+	std::int64_t paramMode2 = -1;
+	std::int64_t paramMode3 = -1;
 	switch (opcode)
 	{
 	case 1:
@@ -40,24 +40,29 @@ std::uint64_t IntcodeComputer::RunInstruction(std::uint64_t ip)
 		paramMode2 = (m_Program[ip] / 1000) % 10;
 	case 3:
 	case 4:
+	case 9:
 		paramMode1 = (m_Program[ip] / 100) % 10;
 	default:
 		break;
 	}
 
-	int param1 = 0;
-	int param2 = 0;
-	int param3 = 0;
+	std::int64_t param1 = 0;
+	std::int64_t param2 = 0;
+	std::int64_t param3 = 0;
 
 	if (paramMode1 == 0)
 		param1 = m_Program[ip + 1];
 	else if (paramMode1 == 1)
 		param1 = ip + 1;
+	else if (paramMode1 == 2)
+		param1 = m_Program[ip + 1] + m_RB;
 
 	if (paramMode2 == 0)
 		param2 = m_Program[ip + 2];
 	else if (paramMode2 == 1)
 		param2= ip + 2;
+	else if (paramMode2 == 2)
+		param2 = m_Program[ip + 2] + m_RB;
 
 	if (paramMode3 == 0)
 		param3 = m_Program[ip + 3];
@@ -66,6 +71,8 @@ std::uint64_t IntcodeComputer::RunInstruction(std::uint64_t ip)
 		assert(false);
 		param3 = ip + 3;
 	}
+	else if (paramMode3 == 2)
+		param3 = m_Program[ip + 3] + m_RB;
 
 	auto jit = [&ip, param1, param2, this]()
 	{
@@ -131,6 +138,10 @@ std::uint64_t IntcodeComputer::RunInstruction(std::uint64_t ip)
 	case 8:
 		eq();
 		break;
+	case 9:
+		m_RB += m_Program[param1];
+		ip += 2;
+		break;
 	case 99:
 		m_Halted = true;
 		break;
@@ -140,13 +151,13 @@ std::uint64_t IntcodeComputer::RunInstruction(std::uint64_t ip)
 	return ip;
 }
 
-int IntcodeComputer::GetValue(std::uint64_t location)
+std::int64_t IntcodeComputer::GetValue(std::uint64_t location)
 {
 	assert(location < m_Program.size());
 	return m_Program[location];
 }
 
-void IntcodeComputer::SetValue(std::uint64_t location, int value)
+void IntcodeComputer::SetValue(std::uint64_t location, std::int64_t value)
 {
 	assert(location < m_Program.size());
 	m_Program[location] = value;

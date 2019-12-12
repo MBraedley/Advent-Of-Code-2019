@@ -13,9 +13,9 @@ public:
 	IOConnector(std::shared_ptr<IntcodeComputer> source, std::shared_ptr<IntcodeComputer> sink);
 	~IOConnector() = default;
 
-	void SetValue(int input);
-	int GetValue();
+	void SetValue(std::int64_t input);
+	std::int64_t GetValue();
 
 private:
-	std::unique_ptr<moodycamel::BlockingReaderWriterQueue<int>> m_Values = nullptr;
+	std::unique_ptr<moodycamel::BlockingReaderWriterQueue<std::int64_t>> m_Values = nullptr;
 };
