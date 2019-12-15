@@ -3,6 +3,7 @@
 
 #include "IntcodeComputer.h"
 #include <cassert>
+#include <fstream>
 
 IntcodeComputer::IntcodeComputer(std::vector<std::int64_t>& program)
 {
@@ -10,6 +11,25 @@ IntcodeComputer::IntcodeComputer(std::vector<std::int64_t>& program)
 	{
 		m_Program.insert({ i, program[i] });
 	}
+}
+
+std::vector<std::int64_t> IntcodeComputer::RaedProgram(std::string filename)
+{
+	std::vector<std::int64_t> input;
+
+	std::int64_t value;
+	char split;
+
+	std::ifstream fileIn(filename);
+
+	while (fileIn >> value >> split)
+	{
+		input.push_back(value);
+	}
+	fileIn >> value;
+	input.push_back(value);
+
+	return input;
 }
 
 void IntcodeComputer::RunProgram()

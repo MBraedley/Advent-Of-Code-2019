@@ -12,6 +12,8 @@ public:
 	explicit IntcodeComputer(std::vector<std::int64_t>& program);
 	~IntcodeComputer() = default;
 
+	static std::vector<std::int64_t> RaedProgram(std::string filename);
+
 	void RunProgram();
 	std::uint64_t RunInstruction(std::uint64_t ip);
 
