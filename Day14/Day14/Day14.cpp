@@ -55,7 +55,7 @@ int main()
 
 		for (auto iter = fuelMap.begin(); iter != fuelMap.end(); iter++)
 		{
-			if (ingredients[iter->first].size() > most)
+			if (ingredients[iter->first].size() > most && iter->second > 0)
 			{
 				most = ingredients[iter->first].size();
 				best = iter;
@@ -68,7 +68,7 @@ int main()
 		{
 			fuelMap[iter.first] += iter.second * multiplier;
 		}
-
+		//TODO: Don't erase from the map, just set it to a negative quantity (i.e. extras)
 		fuelMap.erase(best);
 	} while (fuelMap.size() > 1);
 
