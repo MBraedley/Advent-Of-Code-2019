@@ -71,48 +71,57 @@ int main()
 		}
 	} while (notdone);
 
-	for (auto& iter : fuelMap)
-	{
-		std::cout << iter.first << ": " << iter.second << std::endl;
-	}
+	auto orePt1 = fuelMap["ORE"];
+
+	std::cout << orePt1 << std::endl;
 
 	// Part 2
-	fuelMap = ingredients["FUEL"];
-	fuelMap["ORE"] = -1000000000000;
-	std::uint64_t fuelCount = 0;
+
+	std::int64_t fuelMulti = 0;
+	std::int64_t fuelAdjust = 1'000'000'000'000 / orePt1;
+
 	do
 	{
-		std::int64_t most = 0;
-		auto best = fuelMap.end();
+		auto fuelMap = ingredients["FUEL"];
+		fuelMap["ORE"] = 0;
 
-		for (auto iter = fuelMap.begin(); iter != fuelMap.end(); iter++)
+		fuelMulti += fuelAdjust;
+
+		for (auto& item : fuelMap)
 		{
-			if (ingredients[iter->first].size() > most&& iter->second > 0)
-			{
-				most = ingredients[iter->first].size();
-				best = iter;
-				notdone = true;
-			}
+			item.second *= fuelMulti;
 		}
 
-		if (best != fuelMap.end() && best->first != "ORE")
+		do
 		{
-			std::uint64_t multiplier = (best->second + resultMultiplier[best->first] - 1) / resultMultiplier[best->first];
-			for (auto iter : ingredients[best->first])
-			{
-				fuelMap[iter.first] += iter.second * multiplier;
-			}
-			fuelMap[best->first] -= resultMultiplier[best->first] * multiplier;
-		}
-		else
-		{
-			fuelCount++;
-			for (auto iter : ingredients["FUEL"])
-			{
-				fuelMap[iter.first] += iter.second;
-			}
-		}
-	} while (fuelMap["ORE"] <= 0);
+			notdone = false;
 
-	std::cout << fuelCount - 1 << std::endl;
+			std::int64_t most = 0;
+			auto best = fuelMap.end();
+
+			for (auto iter = fuelMap.begin(); iter != fuelMap.end(); iter++)
+			{
+				if (ingredients[iter->first].size() > most&& iter->second > 0)
+				{
+					most = ingredients[iter->first].size();
+					best = iter;
+					notdone = true;
+				}
+			}
+
+			if (notdone && best != fuelMap.end())
+			{
+				std::uint64_t multiplier = (best->second + resultMultiplier[best->first] - 1) / resultMultiplier[best->first];
+				for (auto iter : ingredients[best->first])
+				{
+					fuelMap[iter.first] += iter.second * multiplier;
+				}
+				fuelMap[best->first] -= resultMultiplier[best->first] * multiplier;
+			}
+		} while (notdone);
+
+		fuelAdjust = (1'000'000'000'000 - fuelMap["ORE"]) / orePt1;
+	} while (fuelMap["ORE"] < 1'000'000'000'000 && fuelAdjust != 0);
+
+	std::cout << fuelMulti << std::endl;
 }
