@@ -8,6 +8,6 @@ OR A T
 AND B T
 AND C T
 NOT T T
-OR D T
+OR D J
 AND T J
 WALK
