@@ -7,10 +7,7 @@
 
 IntcodeComputer::IntcodeComputer(std::vector<std::int64_t>& program)
 {
-	for (std::uint64_t i = 0; i < program.size(); i++)
-	{
-		m_Program.insert({ i, program[i] });
-	}
+	LoadProgramIntoMemory(program);
 }
 
 std::vector<std::int64_t> IntcodeComputer::RaedProgram(std::string filename)
@@ -181,4 +178,22 @@ void IntcodeComputer::SetValue(std::uint64_t location, std::int64_t value)
 {
 	assert(location < m_Program.size());
 	m_Program[location] = value;
+}
+
+void IntcodeComputer::Reset(std::vector<std::int64_t>& program)
+{
+	m_Program.clear();
+	LoadProgramIntoMemory(program);
+
+	m_IP = 0;
+	m_RB = 0;
+	m_Halted = false;
+}
+
+void IntcodeComputer::LoadProgramIntoMemory(std::vector<int64_t>& program)
+{
+	for (std::uint64_t i = 0; i < program.size(); i++)
+	{
+		m_Program.insert({ i, program[i] });
+	}
 }

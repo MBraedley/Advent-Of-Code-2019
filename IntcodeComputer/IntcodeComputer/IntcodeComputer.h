@@ -23,9 +23,11 @@ public:
 	void SetInputCallback(std::function<std::int64_t(void)> function) { m_InputFunction = function; }
 	void SetOutputCallback(std::function<void(std::int64_t)> function) { m_OutputFunction = function; }
 
-//	std::vector<int> GetProgram() { return m_Program; }
+	void Reset(std::vector<std::int64_t>& program);
 
 private:
+	void LoadProgramIntoMemory(std::vector<int64_t>& program);
+
 	std::map<std::int64_t, std::int64_t> m_Program;
 	std::uint64_t m_IP = 0;
 	std::int64_t m_RB = 0;

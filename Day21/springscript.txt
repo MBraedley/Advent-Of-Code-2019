@@ -1,0 +1,13 @@
+# Set T and J to known states
+NOT J T
+AND J T
+AND T J
+# J = ((!A || !B || !C) && D)
+# J = (!(A && B && C) && D)
+OR A T
+AND B T
+AND C T
+NOT T T
+OR D T
+AND T J
+WALK
