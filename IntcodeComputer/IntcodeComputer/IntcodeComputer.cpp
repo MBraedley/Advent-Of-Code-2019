@@ -10,7 +10,7 @@ IntcodeComputer::IntcodeComputer(std::vector<std::int64_t>& program)
 	LoadProgramIntoMemory(program);
 }
 
-std::vector<std::int64_t> IntcodeComputer::RaedProgram(std::string filename)
+std::vector<std::int64_t> IntcodeComputer::ReadProgram(std::string filename)
 {
 	std::vector<std::int64_t> input;
 

@@ -2,17 +2,13 @@
 NOT J T
 AND J T
 AND T J
-# J = ((!A || !B || !C) && D)
-# J = (!(A && B && C) && D)
+# J = (D && (E || H)) && !(A && B && C)
+OR E J
+OR H J
+AND D J
 OR A T
 AND B T
 AND C T
-#AND E T
-#AND F T
-#AND G T
-AND H T
-#AND I T
 NOT T T
-OR D J
 AND T J
 RUN
