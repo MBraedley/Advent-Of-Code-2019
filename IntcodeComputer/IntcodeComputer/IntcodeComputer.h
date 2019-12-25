@@ -20,6 +20,8 @@ public:
 	std::int64_t GetValue(std::uint64_t location);
 	void SetValue(std::uint64_t location, std::int64_t value);
 
+	void Halt() { m_Halted = true; }
+
 	void SetInputCallback(std::function<std::int64_t(void)> function) { m_InputFunction = function; }
 	void SetOutputCallback(std::function<void(std::int64_t)> function) { m_OutputFunction = function; }
 
