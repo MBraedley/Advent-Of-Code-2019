@@ -8,7 +8,7 @@
 
 int main()
 {
-	auto input = IntcodeComputer::RaedProgram("input.txt");
+	auto input = IntcodeComputer::ReadProgram("input.txt");
 	auto program = input;
 
 	IntcodeComputer computer(program);
